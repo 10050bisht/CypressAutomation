@@ -2,6 +2,7 @@ import "cypress-iframe";
 require("@4tw/cypress-drag-drop");
 describe("Handle Tables", () => {
   it("MouseHover ", () => {
+    //Mouse Hover action
     cy.visit("https://demo.opencart.com/");
 
     cy.get(
@@ -18,6 +19,7 @@ describe("Handle Tables", () => {
   });
 
   it("Right Click", () => {
+    //Right click by mouse
     cy.visit("https://swisnl.github.io/jQuery-contextMenu/demo.html");
 
     // Approach 1
@@ -30,6 +32,7 @@ describe("Handle Tables", () => {
   });
 
   it("Double Click", () => {
+    // Double click
     cy.visit(
       "https://www.w3schools.com/Tags/tryit.asp?filename=tryhtml5_ev_ondblclick"
     );
@@ -53,6 +56,7 @@ describe("Handle Tables", () => {
   });
 
   it("Drag and Drop using Plugin", () => {
+    // Drag & Drop using plug in
     cy.visit(
       "http://www.dhtmlgoodies.com/scripts/drag-drop-custom/demo-drag-drop-3.html"
     );
@@ -72,6 +76,7 @@ describe("Handle Tables", () => {
 
     cy.get(".footerlinks").scrollIntoView({
       duration: 2000,
+      
     });
   });
 });
