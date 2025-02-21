@@ -1,6 +1,7 @@
 import "cypress-file-upload";
 describe("File Uplaod", () => {
   it("Single File Upload", () => {
+    // Single file Upload
     cy.visit("https://the-internet.herokuapp.com/upload");
 
     cy.get("#file-upload").attachFile("dummy.pdf");
@@ -13,6 +14,7 @@ describe("File Uplaod", () => {
   });
 
   it.only("File uplaod Rename", () => {
+    //Rename the File
     cy.visit("https://the-internet.herokuapp.com/upload");
 
     cy.get("#file-upload").attachFile({
