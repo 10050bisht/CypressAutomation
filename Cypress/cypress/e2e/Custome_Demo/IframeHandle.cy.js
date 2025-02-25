@@ -10,6 +10,6 @@ describe("Handling Iframes", () => {
       .its("0.contentDocument.body")
       .should("be.visible")
       .then(cy.wrap);
-    iframe.clear()
+    iframe.clear();
   });
 });
