@@ -26,3 +26,8 @@
 
 ///<refrence types="Cypress" />;
 ///<refrence types="Cypress-xpath" />;
+
+// Custom command for clicking on link using label
+Cypress.Commands.add("clickevent", (label) => {
+  cy.get(`a:contains("${label}")`).click();
+});
