@@ -29,9 +29,9 @@ describe("TwelveTone Login Test Cases", () => {
   it("Test Case 3:- Login blank email valid password", () => {
     cy.visit("https://stage.schedulehub.io", { waitUntil: "domcontentloaded" });
 
-    cy.get("._userInput1_8rox6_74").type("test@gmail.com"); // get locators with classname. type the text
+    // cy.get("._userInput1_8rox6_74").type("test@gmail.com"); // get locators with classname. type the text
 
-    // //cy.get("._userInput_8rox6_65").type("  ");
+    cy.get("._userInput_8rox6_65").type("123456");
 
     cy.get("._submitBtn_8rox6_99").click(); // get locators with classname and click the button
 
@@ -52,7 +52,7 @@ describe("TwelveTone Login Test Cases", () => {
   });
 
   // Login with invalid email and invalid password and verify the error message
-  it("Test Case 5:- Login invalid Email and valid password", () => {
+  it("Test Case 5:- Login invalid Email and Invalid password", () => {
     cy.visit("https://stage.schedulehub.io", { waitUntil: "domcontentloaded" });
 
     cy.get("._userInput1_8rox6_74").type("test123@gmail.com"); // get locators with classname. type the text

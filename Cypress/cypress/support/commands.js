@@ -23,3 +23,39 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+Cypress.Commands.add("clickevent", (label) => {
+  cy.get("a").contains(label).click();
+});
+/*
+// Cypress.Commands.overwrite(
+//   "contains",
+//   (originalFn, subject, filter, text, options = {}) => {
+//     if (typeof text == "object") {
+//       options = text;
+//       text = filter;
+//       filter = undefined;
+//     }
+//     options.matchCase = false;
+//     return originalFn(subject, filter, text, options);
+//   }
+// );
+*/
+Cypress.Commands.overwrite(
+  "contains",
+  (originalFn, subject, filter, text, options = {}) => {
+    if (typeof text == "object") {
+      options = text;
+      text = filter;
+      filter = undefined;
+    }
+    options.matchCase = false;
+
+    return originalFn(subject, filter, text, options);
+  }
+);
+
+Cypress.Commands.add("loginapp", (email, password) => {
+  cy.get("input[name='email']").type(email);
+  cy.get("input[name='password']").type(password);
+  cy.get("._submitBtn_8rox6_99").click();
+});
