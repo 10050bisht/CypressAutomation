@@ -40,19 +40,19 @@ Cypress.Commands.add("clickevent", (label) => {
 //   }
 // );
 */
-Cypress.Commands.overwrite(
-  "contains",
-  (originalFn, subject, filter, text, options = {}) => {
-    if (typeof text == "object") {
-      options = text;
-      text = filter;
-      filter = undefined;
-    }
-    options.matchCase = false;
+// Cypress.Commands.overwrite(
+//   "contains",
+//   (originalFn, subject, filter, text, options = {}) => {
+//     if (typeof text == "object") {
+//       options = text;
+//       text = filter;
+//       filter = undefined;
+//     }
+//     options.matchCase = false;
 
-    return originalFn(subject, filter, text, options);
-  }
-);
+//     return originalFn(subject, filter, text, options);
+//   }
+// );
 
 Cypress.Commands.add("loginapp", (email, password) => {
   cy.get("input[name='email']").type(email);
