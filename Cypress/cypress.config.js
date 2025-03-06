@@ -1,7 +1,7 @@
 const { defineConfig } = require("cypress");
 
 module.exports = defineConfig({
-  projectId: 'smf6pa',
+  projectId: "smf6pa",
   e2e: {
     baseUrl: "https://stage.schedulehub.io",
 
@@ -17,3 +17,4 @@ module.exports = defineConfig({
     },
   },
 });
+/// <reference types="cypress" />
