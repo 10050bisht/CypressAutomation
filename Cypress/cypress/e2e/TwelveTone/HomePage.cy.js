@@ -93,11 +93,8 @@ describe("Clients Count", () => {
     });
   });
 
-  it.only("should update the client list when switching tabs", () => {
+  it("should update the client list when switching tabs", () => {
     cy.wait(5000);
-    // cy.get(".MuiStack-root._tab_11xqe_3.css-uj3fkh>p:nth-child(6)").click(); // Click 'Active' tab
-
-    // cy.contains("Active Customers");
 
     cy.get(".MuiStack-root._tab_11xqe_3.css-uj3fkh p") // Select all tabs
       .contains("Active") // Find the tab that contains 'Active'
@@ -114,70 +111,29 @@ describe("Clients Count", () => {
       .invoke("text")
       .should("match", /Active/);
   });
+
+  it("should display 'No Data Found' when a tab has no clients", () => {
+    cy.wait(5000);
+
+    cy.get(".MuiStack-root._tab_11xqe_3.css-uj3fkh p") // Select all tabs
+      .contains("Cold Lead") // Find the tab that contains 'Active'
+      .should("be.visible") // Ensure the tab is visible
+      .click(); // Click the 'Active' tab
+
+    cy.get("tbody tr").should("have.length", 0); // Ensure no clients are listed
+    cy.contains("No Data Found").should("be.visible"); // Check for empty state message
+  });
+
+  // it.only("should match the displayed count for each tab", () => {
+  //   cy.wait(5000);
+
+  //   cy.contains("._tab_11xqe_3.css-uj3fkh p", "Active")
+  //     .click()
+  //     .then(($tab) => {
+  //       const expectedCount = parseInt($tab.find(".count").text(), 11); // Extract count from tab
+  //       // cy.wrap($tab).click(); // Click the tab
+
+  //       cy.get("#scrlId").should("have.length", expectedCount); // Compare count with actual list
+  //     });
+  // });
 });
-
-// 3️⃣ Verify Default Tab Selection
-// 📌 Ensure the correct tab is selected by default on page load.
-
-// javascript
-// Copy
-// Edit
-// it("should load with the correct default tab selected", () => {
-//   cy.visit("/dashboard");
-
-//   cy.get(".tab-selector.active").should("contain.text", "Lead"); // Adjust default tab if needed
-// });
-// ✅ Passes If: The correct tab is highlighted by default.
-// ❌ Fails If: A different tab is selected initially.
-
-// 4️⃣ Verify Pagination Works in Each Tab
-// 📌 Ensure pagination correctly updates data per tab.
-
-// javascript
-// Copy
-// Edit
-// it("should navigate through pages within a tab", () => {
-//   cy.visit("/dashboard");
-
-//   cy.contains(".tab-selector", "MSD Trial").click(); // Switch to MSD Trial tab
-
-//   cy.get('button[aria-label="Go to next page"]').click(); // Click Next Page
-
-//   cy.get(".tab-selector.active").should("contain.text", "MSD Trial"); // Verify tab remains selected
-// });
-// ✅ Passes If: Clicking pagination keeps the user within the same tab.
-// ❌ Fails If: Page navigation resets the tab selection.
-
-// 5️⃣ Verify No Data Message for Empty Tabs
-// 📌 If a tab has no clients, show a "No Data Found" message.
-
-// javascript
-// Copy
-// Edit
-// it("should display 'No Data Found' when a tab has no clients", () => {
-//   cy.visit("/dashboard");
-
-//   cy.contains(".tab-selector", "Completed").click(); // Switch to Completed tab
-
-//   cy.get("tbody tr").should("have.length", 0); // Ensure no clients are listed
-//   cy.contains("No Data Found").should("be.visible"); // Check for empty state message
-// });
-// ✅ Passes If: "No Data Found" appears when no clients exist.
-// ❌ Fails If: The message is missing when the list is empty.
-
-// 6️⃣ Verify Status Count Updates Correctly
-// 📌 Ensure the number of clients in each tab matches the displayed count.
-
-// javascript
-// Copy
-// Edit
-// it("should match the displayed count for each tab", () => {
-//   cy.visit("/dashboard");
-
-//   cy.contains(".tab-selector", "Active").then(($tab) => {
-//     const expectedCount = parseInt($tab.find(".count").text(), 10); // Extract count from tab
-//     cy.wrap($tab).click(); // Click the tab
-
-//     cy.get("tbody tr").should("have.length", expectedCount); // Compare count with actual list
-//   });
-// });
