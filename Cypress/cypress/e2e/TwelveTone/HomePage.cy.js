@@ -124,16 +124,16 @@ describe("Clients Count", () => {
     cy.contains("No Data Found").should("be.visible"); // Check for empty state message
   });
 
-  // it.only("should match the displayed count for each tab", () => {
-  //   cy.wait(5000);
+  it.only("should match the displayed count for each tab", () => {
+    cy.wait(5000);
 
-  //   cy.contains("._tab_11xqe_3.css-uj3fkh p", "Active")
-  //     .click()
-  //     .then(($tab) => {
-  //       const expectedCount = parseInt($tab.find(".count").text(), 11); // Extract count from tab
-  //       // cy.wrap($tab).click(); // Click the tab
+    cy.contains("._tab_11xqe_3.css-uj3fkh p", "Active")
+      .click()
+      .then(($tab) => {
+        const countText = $tab.find(".count").text().trim(); // Get and clean text
+        // cy.wrap($tab).click(); // Click the tab
 
-  //       cy.get("#scrlId").should("have.length", expectedCount); // Compare count with actual list
-  //     });
-  // });
+        cy.get("#scrlId").should("have.length", expectedCount); // Compare count with actual list
+      });
+  });
 });
