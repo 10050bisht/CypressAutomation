@@ -1,0 +1,18 @@
+[
+  {
+    "email": "Admin",
+    "password": "admin123"
+  },
+  {
+    "email": "newadmin",
+    "password": "admin123"
+  },
+  {
+    "email": "Admin",
+    "password": "admin123456"
+  },
+  {
+    "email": "topdrivera@yopmail.com",
+    "password": "Password@123aa"
+  }
+]

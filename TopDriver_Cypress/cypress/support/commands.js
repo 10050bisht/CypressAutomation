@@ -25,3 +25,11 @@
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 ///<refrence types="Cypress" />;
 ///<refrence types="Cypress-xpath" />;
+
+Cypress.Commands.add("loginapp", (email, password) => {
+  cy.get('input[name="email"]').type(email);
+  cy.wait(2000);
+  cy.get("#password").type(password);
+  cy.get(".peer").click();
+  cy.get(".text-white.font-medium").click();
+});
