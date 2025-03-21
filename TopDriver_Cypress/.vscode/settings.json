@@ -7,5 +7,17 @@
     "**/.DS_Store": true,
     "**/Thumbs.db": true,
     ".mule": true
-  }
+  },
+  "editor.cursorSmoothCaretAnimation": "on",
+  "editor.cursorBlinking": "phase",
+  "animations.CursorAnimationOptions": {
+    "CursorStyle": "line",
+    "TrailLength": 8,
+    "Color": "#000000"
+  },
+  "auto-close-tag.fullMode": true,
+  "auto-close-tag.insertSpaceBeforeSelfClosingTag": true,
+  "auto-close-tag.SublimeText3Mode": true,
+  "files.autoSave": "onWindowChange",
+  "editor.colorDecoratorsActivatedOn": "hover"
 }
