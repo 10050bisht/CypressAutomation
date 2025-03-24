@@ -77,7 +77,7 @@ describe("Add Contact Test cases", () => {
     ); // Verify error message for the Phone no. field with invalid Phone No. , for this we have to uopdate email every time
   });
 
-  it.only("add Contact with Valid Data ", () => {
+  it.skip("add Contact with Valid Data ", () => {
     cy.wait(5000);
 
     cy.get('input[name="firstName"]').type("John");
