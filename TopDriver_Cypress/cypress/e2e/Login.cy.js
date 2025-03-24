@@ -118,7 +118,7 @@ describe("TopDriver Login Test Cases", () => {
 
     cy.get('input[name="email"]').type("topdrivera@yopmail.com"); // get locators with classname. type the text
 
-    cy.get('input[name="password"]').type("Password@123admin");
+    cy.get('input[name="password"]').type("Password@123aa");
     cy.get("button[value='on']").click();
 
     cy.wait(2000);

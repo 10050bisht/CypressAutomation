@@ -53,6 +53,7 @@ Cypress.Commands.add("clickevent", (label) => {
 //     return originalFn(subject, filter, text, options);
 //   }
 // );
+import "cypress-xpath";
 
 Cypress.Commands.add("loginapp", (email, password) => {
   cy.get("input[name='email']").type(email);
