@@ -58,19 +58,6 @@ describe("Clients Count", () => {
       );
   });
 
-  // it.only("should open client details when clicking on a client name", () => {
-  //   cy.wait(5000);
-  //   cy.get("tbody tr td ") // Adjust selector for the client details link
-  //     .eq(9) // Select the first client entry
-  //     .then(($link) => {
-  //       const dynamicUrl = $link.attr("contacts/view-client?id="); // Extract the dynamic URL
-  //       cy.visit(dynamicUrl); // Manually visit the new tab's URL
-  //     });
-
-  //   // Verify that the new page loaded correctly
-  //   cy.url().should("include", "/contacts/view-client?id="); // Check if it's a client details page
-  //   cy.get("h1").should("contain.text", "Client Profile");
-  // });
   it("should display all status tabs", () => {
     cy.wait(5000);
 

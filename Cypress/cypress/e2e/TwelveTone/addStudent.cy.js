@@ -1,9 +1,8 @@
 import LoginPage from "../../PageObject/LoginPage";
-import AddClientPage from "../../PageObject/AddClientPage";
-
+import AddStudentPage from "../../PageObject/AddStudentPage";
 describe("Add Student file", () => {
   const loginPage = new LoginPage();
-  const addClientPage = new AddClientPage();
+  const AddStudentPage = new AddStudentPage();
 
   it("Create Contact", function () {
     // Login
@@ -14,19 +13,19 @@ describe("Add Student file", () => {
     cy.get(".Toastify__toast-body > :nth-child(2)").click();
 
     // Add Client
-    addClientPage.clickAddClientButton();
-    addClientPage.setFirstName("aman");
-    addClientPage.setLastName("sharma");
+    AddStudentPage.clickAddClientButton();
+    AddStudentPage.setFirstName("aman");
+    AddStudentPage.setLastName("sharma");
     cy.wait(4000);
-    addClientPage.setPhoneNumber("7896542355");
-    addClientPage.selectPhoneType("cell");
-    addClientPage.setEmail("john2341@yopmail.com");
-    addClientPage.selectLeadType("Online");
-    addClientPage.selectMedium("Facebook");
-    addClientPage.ClickButton();
+    AddStudentPage.setPhoneNumber("7896542355");
+    AddStudentPage.selectPhoneType("cell");
+    AddStudentPage.setEmail("john2341@yopmail.com");
+    AddStudentPage.selectLeadType("Online");
+    AddStudentPage.selectMedium("Facebook");
+    AddStudentPage.ClickButton();
 
     // Verify error message
     cy.wait(4000);
-    addClientPage.verifyEmailAlreadyExistsMessage();
+    AddStudentPage.verifyEmailAlreadyExistsMessage();
   });
 });

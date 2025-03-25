@@ -1,14 +1,14 @@
-class AddCStudentPage {
-  clickAddClientButton() {
-    cy.get(".css-1e35650 > .MuiButtonBase-root").click();
+class AddClientPage {
+  clickAddContactButton() {
+    cy.contains("button", "Add Contact").click();
   }
 
   setFirstName(firstName) {
-    cy.get("#\\:r1\\:").type(firstName);
+    cy.get('input[name="firstName"]').type(firstName);
   }
 
   setLastName(lastName) {
-    cy.get("#\\:r2\\:").type(lastName);
+    cy.get('input[name="lastName"]').type(lastName);
   }
 
   setPhoneNumber(phoneNo) {
@@ -33,13 +33,20 @@ class AddCStudentPage {
     cy.get(".MuiInputBase-root > #medium").click();
     cy.get(`[data-value="${medium}"]`).click();
   }
-  ClickButton(AddButton) {
-    cy.get(
-      "._modelFooter_n8wpi_91 > .MuiStack-root > .MuiButton-contained"
-    ).click();
+
+  clickAddClientButton() {
+    cy.contains("button", "Add Client").click();
   }
-  verifyEmailAlreadyExistsMessage() {
-    cy.get(".Toastify__toast-body").should("have.text", "Email already exists");
+
+  verifyErrorMessage(selector, expectedMessage) {
+    cy.contains(selector, expectedMessage).should("have.text", expectedMessage);
+  }
+
+  verifyToastMessage(expectedMessage) {
+    cy.get(".Toastify__toast-body > :nth-child(2)").should(
+      "have.text",
+      expectedMessage
+    );
   }
 }
 
