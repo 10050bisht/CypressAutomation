@@ -1,5 +1,6 @@
 import LoginPage from "../../PageObject/LoginPage";
-import AddStudentPage from "../../PageObject/AddStudentPage";
+import AddStudentPage from "../../PageObject/AddStudentPage.js";
+
 describe("Add Student file", () => {
   const loginPage = new LoginPage();
   const AddStudentPage = new AddStudentPage();
