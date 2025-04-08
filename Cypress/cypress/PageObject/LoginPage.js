@@ -1,6 +1,6 @@
 class LoginPage {
   setUsername(username) {
-    cy.get("input[placeholder='e.g. abc@xyz.com']").type(username);
+    cy.get("input[name='email']").type(username);
   }
   setPassword(password) {
     cy.get("input[placeholder='****************']").type(password);
