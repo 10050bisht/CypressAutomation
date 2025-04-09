@@ -1,0 +1,11 @@
+{
+  "url": "https://staging.topdriverdev.com",
+  "validEmail": "topdrivera@yopmail.com",
+  "validPassword": "Password@123aa",
+  "invalidEmail": "test1@gmail.com",
+  "invalidPassword": "Password@123admin",
+  "errorMessages": {
+    "blankFields": "Something went wrong! Please check your email or password.",
+    "loginFailed": "Login failed"
+  }
+}
