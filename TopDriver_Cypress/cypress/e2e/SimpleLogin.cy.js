@@ -8,6 +8,8 @@ export function login() {
   loginPage.visit(loginData.url);
   loginPage.enterEmail(loginData.validEmail);
   loginPage.enterPassword(loginData.validPassword);
+  cy.wait(5000);
+
   loginPage.clickLoginButton();
   cy.wait(5000);
   loginPage.verifySuccessfulLogin();

@@ -22,7 +22,9 @@ class LoginPage {
   }
 
   clickLoginButton() {
-    cy.xpath("//button[.//span[text()='Login']]").click();
+    // cy.contains("button", "Login");
+    cy.get("button[type='submit']", { timeout: 10000 }).click();
+    // cy.xpath("//button[.//span[text()='Login']]").click();
   }
 
   verifyErrorMessage(message) {
