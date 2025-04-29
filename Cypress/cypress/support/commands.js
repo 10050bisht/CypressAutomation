@@ -56,7 +56,8 @@ Cypress.Commands.add("clickevent", (label) => {
 import "cypress-xpath";
 
 Cypress.Commands.add("loginapp", (email, password) => {
-  cy.get("input[name='email']").type(email);
-  cy.get("input[name='password']").type(password);
-  cy.get("._submitBtn_8rox6_99").click();
+  cy.visit("https://stage.schedulehub.io");
+  cy.get("._userInput1_8rox6_74").clear().type(email); // Enter email
+  cy.get("._userInput_8rox6_65").clear().type(password); // Enter password
+  cy.get("._submitBtn_8rox6_99").click(); // Click submit
 });
