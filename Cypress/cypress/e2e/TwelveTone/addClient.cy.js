@@ -51,7 +51,7 @@ describe("Add Contact Test cases", () => {
     addClientPage.verifyToastMessage("Please enter a valid phone number");
   });
 
-  it.only("Add Contact with valid data", () => {
+  it("Add Contact with valid data", () => {
     addClientPage.clickAddContactButton();
     addClientPage.setFirstName("John");
     addClientPage.setLastName("Doe");

@@ -1,7 +1,6 @@
 class AddStudentPage {
-
   selectClient() {
-  cy.
+    cy.contains("div", clientName).click(); // Click on the client name in the list
   }
   clickAddStudentButton() {
     cy.contains("div", "Add Student").click();

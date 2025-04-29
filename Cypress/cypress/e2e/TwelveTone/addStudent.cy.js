@@ -3,15 +3,13 @@ import AddStudentPage from "../../PageObject/AddStudentPage";
 describe("Add Student file", () => {
   const loginPage = new LoginPage();
   const StudentPage = new AddStudentPage();
+  beforeEach(() => {
+    // Use the custom login command
+    cy.loginapp("dev.12tone@yopmail.com", "jXfNQ9g2o5sa");
+    cy.wait(5000);
+  });
 
   it("Create Contact", function () {
-    // Login
-    cy.visit("https://stage.schedulehub.io");
-    loginPage.setUsername("test@gmail.com");
-    loginPage.setPassword("123456");
-    loginPage.clickSubmit();
-    cy.get(".Toastify__toast-body > :nth-child(2)").click();
-
     // Add Client
     StudentPage.clickAddClientButton();
     StudentPage.setFirstName("aman");
