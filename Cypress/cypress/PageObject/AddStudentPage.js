@@ -1,10 +1,13 @@
 class AddStudentPage {
-  clickAddClientButton() {
-    cy.contains("button", "Add Client").click();
+  selectClient() {
+    cy.contains("div", clientName).click(); // Click on the client name in the list
+  }
+  clickAddStudentButton() {
+    cy.contains("div", "Add Student").click();
   }
 
   setFirstName(firstName) {
-    cy.get('input[name="firstName"]').type(firstName);
+    cy.get("input[id=':r0:']").type(firstName);
   }
 
   setLastName(lastName) {

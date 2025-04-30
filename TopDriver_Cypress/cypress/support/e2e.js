@@ -18,3 +18,4 @@ import "./commands";
 Cypress.on("uncaught:exception", (err, runnable) => {
   return false; // Prevents Cypress from failing the test
 });
+import "cypress-xpath";

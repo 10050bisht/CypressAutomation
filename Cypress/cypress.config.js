@@ -19,3 +19,4 @@ module.exports = defineConfig({
   },
 });
 /// <reference types="cypress" />
+/// <reference types="cypress-xpath" />

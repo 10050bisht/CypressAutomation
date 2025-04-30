@@ -1,0 +1,28 @@
+{
+  "validUser": {
+    "firstName": "John",
+    "lastName": "Doe",
+    "email": "johndoe@example.com",
+    "phone": "1234567890"
+  },
+  "DuplicatedUser": {
+    "firstName": "Jane",
+    "lastName": "Smith",
+    "email": "aman@yopmail.com",
+    "phone": "09876"
+  },
+  "invalidUser": {
+    "firstName": " ",
+    "lastName": " ",
+    "email": "aman@yopmail",
+    "phone": "09876"
+  },
+  "errorMessages": {
+    "missingFirstname": "First name is required",
+    "missingLastName": "Last name is required",
+    "missingPhoneNumber": "Phone number must contain only digits",
+    "missingEmail": "Invalid email format",
+    "invalidEmail": "The email address is not valid.",
+    "userExists": "A user with this email already exists."
+  }
+}
