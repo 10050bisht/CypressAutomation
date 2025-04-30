@@ -44,8 +44,8 @@ describe("POST Requests", () => {
   });
 
   it.only("Approach 3 -- Using Fixture", () => {
-    cy.fixture("PostCall").then((data) => {
-      const requestbody = data; // Assuming the fixture file contains the JSON object directly{
+    cy.fixture("PostCall").then((data1) => {
+      const requestbody = data1; // Assuming the fixture file contains the JSON object directly{
 
       cy.request({
         method: "POST",
@@ -54,7 +54,7 @@ describe("POST Requests", () => {
       }).then((response) => {
         expect(response.status).to.eq(200);
         expect(response.body.name).to.eq(requestbody.name);
-        expect(response.body.data).to.deep.equal(requestbody.data);
+        expect(response.body.data1).to.deep.equal(requestbody.data);
       });
     });
   });
