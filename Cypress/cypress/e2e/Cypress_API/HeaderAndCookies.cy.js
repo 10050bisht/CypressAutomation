@@ -51,6 +51,7 @@ describe("Header and Cookies", () => {
         "content-type": "application/json",
         Authorization: `Bearer ${authToken}`, // Use the stored token
       },
+      qs: { page: 299 },
     }).then((response) => {
       expect(response.status).to.eq(200);
       expect(response.body).to.have.length(1); // Ensure one order is fetched

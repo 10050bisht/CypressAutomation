@@ -187,7 +187,7 @@ describe("Login API Testing", () => {
     });
   });
 
-  it.only("should fail to log in with invalid HTTP method", () => {
+  it("should fail to log in with invalid HTTP method", () => {
     cy.request({
       method: "GET", // Invalid method for login
       url: apiUrl,
