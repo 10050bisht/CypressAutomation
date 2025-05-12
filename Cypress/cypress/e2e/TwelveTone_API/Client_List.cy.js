@@ -2,13 +2,13 @@ describe("Create Contact API Testing", () => {
   const ClientListUrl =
     "https://api-stage.schedulehub.io/api/v1/admin/contacts/leads?search=&page=1&status=All";
 
-  const apiUrl = "https://api-stage.schedulehub.io/api/v1/auth/admin/login";
+  const loginUrl = "https://api-stage.schedulehub.io/api/v1/auth/admin/login";
   let authToken = null; // Declare authToken at the top of the suite
 
   before("Login and get token", () => {
     cy.request({
       method: "POST",
-      url: apiUrl,
+      url: loginUrl,
       headers: {
         "content-type": "application/json",
       },
