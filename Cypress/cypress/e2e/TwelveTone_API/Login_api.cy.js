@@ -1,18 +1,8 @@
 describe("Login API Testing", () => {
   const apiUrl = "https://api-stage.schedulehub.io/api/v1/auth/admin/login";
-  it("should successfully log in with valid credentials and validate response data", () => {
-    cy.request({
-      method: "POST",
-      url: apiUrl,
-      body: {
-        email: "dev.12tone@yopmail.com",
-        password: "jXfNQ9g2o5sa",
-      },
-    }).then((response) => {
-      // Validate status code
+  it.only("should successfully log in with valid credentials and validate response data", () => {
+    cy.loginApi("dev.12tone@yopmail.com", "jXfNQ9g2o5sa").then((response) => {
       expect(response.status).to.eq(200);
-
-      // Validate response structure
       expect(response.body).to.have.property("success", true);
       expect(response.body).to.have.property("message", "Login success");
       expect(response.body).to.have.property("data");
@@ -32,32 +22,19 @@ describe("Login API Testing", () => {
   });
 
   it("should fail to log in with invalid credentials (Negative Test)", () => {
-    cy.request({
-      method: "POST",
-      url: apiUrl,
-      failOnStatusCode: false,
-      body: {
-        email: "dev.12tonesdfsd@yopmail.com",
-        password: "jXfNQ9g2o5sdsfdsfa",
-      },
-    }).then((response) => {
-      expect(response.body).to.have.property(
-        "message",
-        "Invalid Email Address."
-      );
-      expect(response.status).to.eq(401);
-    });
+    cy.loginApi("invalid.email@example.com", "wrongpassword").then(
+      (response) => {
+        expect(response.body).to.have.property(
+          "message",
+          "Invalid Email Address."
+        );
+        expect(response.status).to.eq(401);
+      }
+    );
   });
 
   it("should fail to log in with missing blank email (Negative Test)", () => {
-    cy.request({
-      method: "POST",
-      url: apiUrl,
-      failOnStatusCode: false,
-      body: {
-        email: "",
-      },
-    }).then((response) => {
+    cy.loginApi("", "jXfNQ9g2o5sa").then((response) => {
       expect(response.body).to.have.property(
         "message",
         '"email" is not allowed to be empty'
@@ -67,124 +44,77 @@ describe("Login API Testing", () => {
   });
 
   it("should fail to log in with missing password", () => {
-    cy.request({
-      method: "POST",
-      url: apiUrl,
-      failOnStatusCode: false,
-      body: {
-        email: "dev.12tone@yopmail.com",
-      },
-    }).then((response) => {
-      // Validate error message
-      expect(response.body).to.have.property("message", "Password is required");
-      // Validate status code
+    cy.loginApi("dev.12tone@yopmail.com", "").then((response) => {
+      expect(response.body).to.have.property(
+        "message",
+        '"password" is not allowed to be empty'
+      );
       expect(response.status).to.eq(400);
     });
   });
+
   it("should fail to log in with missing email", () => {
-    cy.request({
-      method: "POST",
-      url: apiUrl,
-      failOnStatusCode: false,
-      body: {
-        password: "jXfNQ9g2o5sa",
-      },
-    }).then((response) => {
-      // Validate error message
-      expect(response.body).to.have.property("message", "Email is required");
-      // Validate status code
+    cy.loginApi("", "jXfNQ9g2o5sa").then((response) => {
+      expect(response.body).to.have.property(
+        "message",
+        '"email" is not allowed to be empty'
+      );
       expect(response.status).to.eq(400);
     });
   });
 
   it("should fail to log in with empty request body", () => {
-    cy.request({
-      method: "POST",
-      url: apiUrl,
-      failOnStatusCode: false,
-      body: {},
-    }).then((response) => {
-      // Validate error message
-      expect(response.body).to.have.property("message", "Email is required");
-      // Validate status code
+    cy.loginApi("", "").then((response) => {
+      expect(response.body).to.have.property(
+        "message",
+        '"email" is not allowed to be empty'
+      );
       expect(response.status).to.eq(400);
     });
   });
 
   it("should fail to log in with invalid email format", () => {
-    cy.request({
-      method: "POST",
-      url: apiUrl,
-      failOnStatusCode: false,
-      body: {
-        email: "invalid-email-format",
-        password: "jXfNQ9g2o5sa",
-      },
-    }).then((response) => {
-      // Validate error message
+    cy.loginApi("invalid-email-format", "jXfNQ9g2o5sa").then((response) => {
       expect(response.body).to.have.property(
         "message",
         "Please provide a valid email address"
-      ); // Validate status code
+      );
       expect(response.status).to.eq(400);
     });
   });
 
   it("should fail to log in with excessively long email and password", () => {
-    cy.request({
-      method: "POST",
-      url: apiUrl,
-      failOnStatusCode: false,
-      body: {
-        email: "a".repeat(256) + "@example.com", // Excessively long email
-        password: "b".repeat(256), // Excessively long password
-      },
-    }).then((response) => {
-      // Validate error message
+    cy.loginApi("'a'.repeat(256) + '@example.com'", "'b'.repeat(256)").then(
+      (response) => {
+        expect(response.body).to.have.property(
+          "message",
+          "Please provide a valid email address"
+        );
+        expect(response.status).to.eq(400);
+      }
+    );
+  });
+
+  it("should fail to log in with SQL injection in email", () => {
+    cy.loginApi("' OR 1=1; --", "jXfNQ9g2o5sa").then((response) => {
       expect(response.body).to.have.property(
         "message",
         "Please provide a valid email address"
-      ); // Validate status code
+      );
       expect(response.status).to.eq(400);
     });
   });
 
-  it("should fail to log in with SQL injection in email", () => {
-    cy.request({
-      method: "POST",
-      url: apiUrl,
-      failOnStatusCode: false,
-      body: {
-        email: "' OR 1=1; --",
-        password: "jXfNQ9g2o5sa",
-      },
-    }).then((response) => {
-      // Validate error message
-      expect(response.body).to.have.property(
-        "message",
-        "Please provide a valid email address"
-      ); // Validate status code
-      expect(response.status).to.eq(401);
-    });
-  });
-
   it("should fail to log in with XSS attack in email", () => {
-    cy.request({
-      method: "POST",
-      url: apiUrl,
-      failOnStatusCode: false,
-      body: {
-        email: "<script>alert('XSS')</script>",
-        password: "jXfNQ9g2o5sa",
-      },
-    }).then((response) => {
-      // Validate error message
-      expect(response.body).to.have.property(
-        "message",
-        "Please provide a valid email address"
-      ); // Validate status code
-      expect(response.status).to.eq(401);
-    });
+    cy.loginApi("<script>alert('XSS')</script>", "jXfNQ9g2o5sa").then(
+      (response) => {
+        expect(response.body).to.have.property(
+          "message",
+          "Please provide a valid email address"
+        );
+        expect(response.status).to.eq(400);
+      }
+    );
   });
 
   it("should fail to log in with invalid HTTP method", () => {

@@ -62,15 +62,30 @@ Cypress.Commands.add("loginapp", (email, password) => {
   cy.get("._submitBtn_8rox6_99").click(); // Click submit
 });
 
-Cypress.Commands.add("createUser", (authToken, userData) => {
+//................................API Commands to resuse the code for login .............................
+Cypress.Commands.add("loginApi", (email, password) => {
   return cy.request({
     method: "POST",
-    url: "https://api-stage.schedulehub.io/api/v1/admin/settings/user-access/create",
+    url: "https://api-stage.schedulehub.io/api/v1/auth/admin/login",
+    failOnStatusCode: false,
+    body: {
+      email,
+      password,
+    },
+  });
+});
+
+//................................API Commands to resuse the Fetech for contacts Details  .............................
+
+Cypress.Commands.add("fetchContactList", (authToken, queryParams = {}) => {
+  return cy.request({
+    method: "GET",
+    url: "https://api-stage.schedulehub.io/api/v1/admin/contacts/leads?search=&page=1&status=All",
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${authToken}`,
     },
-    body: userData,
+    qs: queryParams, // Pass query parameters dynamically
     failOnStatusCode: false,
   });
 });

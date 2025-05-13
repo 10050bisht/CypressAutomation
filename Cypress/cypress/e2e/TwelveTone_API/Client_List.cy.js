@@ -1,36 +1,18 @@
 describe("Create Contact API Testing", () => {
-  const ClientListUrl =
-    "https://api-stage.schedulehub.io/api/v1/admin/contacts/leads?search=&page=1&status=All";
-
-  const loginUrl = "https://api-stage.schedulehub.io/api/v1/auth/admin/login";
-  let authToken = null; // Declare authToken at the top of the suite
+  const email = "dev.12tone@yopmail.com";
+  const password = "jXfNQ9g2o5sa";
+  let authToken = null;
 
   before("Login and get token", () => {
-    cy.request({
-      method: "POST",
-      url: loginUrl,
-      headers: {
-        "content-type": "application/json",
-      },
-      body: {
-        email: "dev.12tone@yopmail.com",
-        password: "jXfNQ9g2o5sa",
-      },
-    }).then((response) => {
-      expect(response.status).to.eq(200); // Ensure the request was successful
+    cy.loginApi(email, password).then((response) => {
+      expect(response.status).to.eq(200);
       authToken = response.body.data.token; // Store the token for later use
+      expect(authToken).to.be.a("string").and.not.be.empty;
     });
   });
 
   it("should successfully fetch the contact list with a valid token and validate response properties", () => {
-    cy.request({
-      method: "GET",
-      url: ClientListUrl,
-      headers: {
-        "content-type": "application/json",
-        Authorization: `Bearer ${authToken}`, // Use the stored token
-      },
-    }).then((response) => {
+    cy.fetchContactList(authToken).then((response) => {
       // Validate status code
       expect(response.status).to.eq(200);
 
@@ -68,15 +50,7 @@ describe("Create Contact API Testing", () => {
   });
 
   it("should fail to fetch the contact list with an invalid token", () => {
-    cy.request({
-      method: "GET",
-      url: ClientListUrl,
-      headers: {
-        Authorization: `Bearer invalid_token`, // Invalid token
-        "Content-Type": "application/json",
-      },
-      failOnStatusCode: false,
-    }).then((response) => {
+    cy.fetchContactList("invalid_token").then((response) => {
       // Validate status code
       expect(response.status).to.eq(401);
 
@@ -89,61 +63,40 @@ describe("Create Contact API Testing", () => {
   });
 
   it("should fail to fetch the contact list with invalid query parameters", () => {
-    cy.request({
-      method: "GET",
-      url: ClientListUrl,
-      headers: {
-        Authorization: `Bearer ${authToken}`, // Replace with a valid token
-        "Content-Type": "application/json",
-      },
-      qs: { page: abc },
-      failOnStatusCode: false,
-    }).then((response) => {
+    cy.fetchContactList(authToken, { page: "abc" }).then((response) => {
+      // Validate status code
+      expect(response.status).to.eq(400);
+
       // Validate error message
       expect(response.body).to.have.property(
         "message",
         "Something went wrong!"
       );
-      // Validate status code
-      expect(response.status).to.eq(400);
     });
   });
 
   it("should fail to fetch the contact list with excessively large page number", () => {
-    cy.request({
-      method: "GET",
-      url: ClientListUrl,
-      headers: {
-        Authorization: `Bearer ${authToken}`, // Replace with a valid token
-        "Content-Type": "application/json",
-      },
-      qs: { page: 2222 },
-
-      failOnStatusCode: false,
-    }).then((response) => {
-      // Validate error message
-      expect(response.body).to.have.property("message", "No contacts found");
-
+    cy.fetchContactList(authToken, { page: 2222 }).then((response) => {
       // Validate status code
       expect(response.status).to.eq(404);
+
+      // Validate error message
+      expect(response.body).to.have.property("message", "No contacts found");
     });
   });
 
   it.only("should fail to fetch the contact list with invalid status", () => {
-    cy.request({
-      method: "GET",
-      url: ClientListUrl,
-      headers: {
-        Authorization: `Bearer ${authToken}`, // Replace with a valid token
-        "Content-Type": "application/json",
-      },
-      failOnStatusCode: false,
-    }).then((response) => {
-      // Validate status code
-      expect(response.status).to.eq(400);
+    cy.fetchContactList(authToken, { status: "InvalidStatus" }).then(
+      (response) => {
+        // Validate status code
+        expect(response.status).to.eq(400);
 
-      // Validate error message
-      expect(response.body).to.have.property("message", "Invalid status value");
-    });
+        // Validate error message
+        expect(response.body).to.have.property(
+          "message",
+          "Invalid status value"
+        );
+      }
+    );
   });
 });

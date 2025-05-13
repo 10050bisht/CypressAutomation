@@ -377,7 +377,7 @@ describe("Create User API Tests", () => {
     });
   });
 
-  it.only("Positive Test - Email is added successfully with valid email", () => {
+  it("Positive Test - Email is added successfully with valid email", () => {
     cy.request({
       method: "POST",
       url: apiUrl,
@@ -403,91 +403,187 @@ describe("Create User API Tests", () => {
     });
   });
 
+  // "firstname" : "kannika",
+  //  	"lastname" : "mathew",
+  //   "gender" :"male",
+  //   "accessLevelId" : "666ae00680d5f3f0ae95e51d",
+  //   "email" : "hb04780999@gmail.com",
+  //   "instruments" : [""],
 
+  it("Negative Test - Should fail to create a user when instruments is empty", () => {
+    cy.request({
+      method: "POST",
+      url: apiUrl,
+      body: {
+        firstname: "kannika",
+        lastname: "mathew",
+        gender: "male",
+        accessLevelId: "666ae00680d5f3f0ae95e51d",
+        email: "hb04780999@gmail.com",
+        instruments: [""],
+        exitedUserId: "null",
+      },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${authToken}`,
+      },
+      //   failOnStatusCode: false,
+    }).then((response) => {
+      //   expect(response.body).to.have.property("success");
+      expect(response.body).to.have.property(
+        "message",
+        '"instruments" is not allowed to be empty'
+      );
+      expect(response.status).to.eq(409); // Assuming 409 Conflict is the error status
+    });
+  });
 
+  const uniqueEmail = `user${Math.random()
+    .toString(36)
+    .substring(2, 10)}@example.com`; // Generate a unique email
 
+  it("Positive Test - Should Pass to create a user when instruments is Valid ", () => {
+    cy.request({
+      method: "POST",
+      url: apiUrl,
+      body: {
+        firstname: "kannika",
+        lastname: "mathew",
+        gender: "male",
+        accessLevelId: "666ae00680d5f3f0ae95e51d",
+        email: uniqueEmail, //update email every time
+        instruments: ["67dd517adc860814f620e4a4"],
+        exitedUserId: "null",
+      },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${authToken}`,
+      },
+      //   failOnStatusCode: false,
+    }).then((response) => {
+      //   expect(response.body).to.have.property("success");
+      expect(response.body).to.have.property(
+        "message",
+        "User created successfuly"
+      );
+      expect(response.status).to.eq(200); // Assuming 409 Conflict is the error status
+    });
+  });
 
+  it("Negative Test - Should fail to create a user when Email is existed after fill full form", () => {
+    cy.request({
+      method: "POST",
+      url: apiUrl,
+      body: {
+        firstname: "kannika",
+        lastname: "mathew",
+        gender: "male",
+        accessLevelId: "666ae00680d5f3f0ae95e51d",
+        email: "hb04780999@gmail.com",
+        instruments: [""],
+        exitedUserId: "null",
+      },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${authToken}`,
+      },
+      //   failOnStatusCode: false,
+    }).then((response) => {
+      //   expect(response.body).to.have.property("success");
+      expect(response.body).to.have.property(
+        "message",
+        "Email Already Existed"
+      );
+      expect(response.status).to.eq(409); // Assuming 409 Conflict is the error status
+    });
+  });
 
-  
-  //   it("Positive Test - Should create a user successfully", () => {
-  //     cy.request({
-  //       method: "POST",
-  //       url: apiUrl,
-  //       body: {
-  //         name: "John Doe",
-  //         email: "johndoe@example.com",
-  //         password: "Password123!",
-  //       },
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //     }).then((response) => {
-  //       expect(response.status).to.eq(201); // Assuming 201 Created is the success status
-  //       expect(response.body).to.have.property("id");
-  //       expect(response.body.name).to.eq("John Doe");
-  //       expect(response.body.email).to.eq("johndoe@example.com");
-  //     });
-  //   });
+  it("Positive Test - Should create a user successfully", () => {
+    cy.request({
+      method: "POST",
+      url: apiUrl,
+      body: {
+        firstname: "kannika",
+        lastname: "mathew",
+        gender: "male",
+        accessLevelId: "666ae00680d5f3f0ae95e51d",
+        email: uniqueEmail, //update email every time
+        instruments: ["67dd517adc860814f620e4a4"],
+        exitedUserId: "null",
+      },
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then((response) => {
+      expect(response.status).to.eq(201); // Assuming 201 Created is the success status
+      expect(response.body).to.have.property("id");
+      expect(response.body.name).to.eq("John Doe");
+      expect(response.body.email).to.eq("johndoe@example.com");
+    });
+  });
 
-  //   it("Negative Test - Should fail to create a user with invalid data", () => {
-  //     cy.request({
-  //       method: "POST",
-  //       url: apiUrl,
-  //       body: {
-  //         firstname: "",
-  //         lastname: "mathew",
-  //         email: "kannik111a00@yopmail.com",
-  //         address: "illinois",
-  //         bussinessphoneNo: "9966788656",
-  //         gender: "male",
-  //         phoneNo: "8778876877",
-  //         accessLevelId: "666ae00680d5f3f0ae95e51d",
-  //         instruments: ["66669e7f83c6ec5a88dbe89c"],
-  //         exitedUserId: "null",
-  //       },
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         Authorization: `Bearer ${authToken}`,
-  //       },
-  //       failOnStatusCode: false, // Prevent Cypress from failing the test on non-2xx status
-  //     }).then((response) => {
-  //       expect(response.body).to.have.property("success");
-  //       expect(response.body).to.have.property(
-  //         "message",
-  //         '"firstname" is not allowed to be empty'
-  //       );
-  //       expect(response.status).to.eq(400); // Assuming 400 Bad Request is the error status
-  //     });
-  //   });
+  it.only("Negative Test - Should fail to create a user with Blank data", () => {
+    cy.request({
+      method: "POST",
+      url: apiUrl,
+      body: {
+        firstname: "",
+        lastname: "",
+        email: "",
+        gender: "",
+        accessLevelId: "",
+        instruments: [""],
+        exitedUserId: "null",
+      },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${authToken}`,
+      },
+      failOnStatusCode: false, // Prevent Cypress from failing the test on non-2xx status
+    }).then((response) => {
+      expect(response.body).to.have.property("success");
+      expect(response.body).to.have.property(
+        "message",
+        '"firstname" is not allowed to be empty'
+      );
+      expect(response.status).to.eq(400); // Assuming 400 Bad Request is the error status
+    });
+  });
+});
 
-  //   it("Negative Test - Should fail to create a user with a duplicate email", () => {
-  //     cy.request({
-  //       method: "POST",
-  //       url: apiUrl,
-  //       body: {
-  //         firstname: "kannika",
-  //         lastname: "mathew",
-  //         email: "kannika00@yopmail.com",
-  //         address: "illinois",
-  //         bussinessphoneNo: "9966788656",
-  //         gender: "male",
-  //         phoneNo: "8778876877",
-  //         accessLevelId: "666ae00680d5f3f0ae95e51d",
-  //         instruments: ["66669e7f83c6ec5a88dbe89c"],
-  //         exitedUserId: "null",
-  //       },
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         Authorization: `Bearer ${authToken}`,
-  //       },
-  //       //   failOnStatusCode: false,
-  //     }).then((response) => {
-  //       //   expect(response.body).to.have.property("success");
-  //       expect(response.body).to.have.property(
-  //         "message",
-  //         "Email Already Existed"
-  //       );
-  //       expect(response.status).to.eq(409); // Assuming 409 Conflict is the error status
-  //     });
-  //   });
+describe("Login API Testing", () => {
+  it("should successfully log in with valid credentials", () => {
+    cy.login("dev.12tone@yopmail.com", "jXfNQ9g2o5sa").then((response) => {
+      expect(response.status).to.eq(200);
+      expect(response.body).to.have.property("success", true);
+      expect(response.body).to.have.property("message", "Login success");
+    });
+  });
+
+  it("should fail to log in with invalid credentials", () => {
+    cy.login("invalid.email@example.com", "wrongpassword").then((response) => {
+      expect(response.status).to.eq(401);
+      expect(response.body).to.have.property(
+        "message",
+        "Invalid Email Address."
+      );
+    });
+  });
+
+  it("should fail to log in with missing email", () => {
+    cy.login("", "jXfNQ9g2o5sa").then((response) => {
+      expect(response.status).to.eq(400);
+      expect(response.body).to.have.property(
+        "message",
+        '"email" is not allowed to be empty'
+      );
+    });
+  });
+
+  it("should fail to log in with missing password", () => {
+    cy.login("dev.12tone@yopmail.com", "").then((response) => {
+      expect(response.status).to.eq(400);
+      expect(response.body).to.have.property("message", "Password is required");
+    });
+  });
 });
