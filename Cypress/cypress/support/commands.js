@@ -61,3 +61,16 @@ Cypress.Commands.add("loginapp", (email, password) => {
   cy.get("._userInput_8rox6_65").clear().type(password); // Enter password
   cy.get("._submitBtn_8rox6_99").click(); // Click submit
 });
+
+Cypress.Commands.add("createUser", (authToken, userData) => {
+  return cy.request({
+    method: "POST",
+    url: "https://api-stage.schedulehub.io/api/v1/admin/settings/user-access/create",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${authToken}`,
+    },
+    body: userData,
+    failOnStatusCode: false,
+  });
+});

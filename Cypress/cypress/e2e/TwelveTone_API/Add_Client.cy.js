@@ -227,12 +227,62 @@ describe("Create User API Tests", () => {
   });
   //   accessLevelId;
 
-  it.only("Negative Test - Should fail to create a user when Gender name is empty", () => {
+  it("Negative Test - Should fail to create a user when Access level id  is empty", () => {
     cy.request({
       method: "POST",
       url: apiUrl,
       body: {
         firstname: "aman",
+        lastname: "sharma",
+        gender: "Male",
+        accessLevelId: "",
+      },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${authToken}`,
+      },
+      //   failOnStatusCode: false,
+    }).then((response) => {
+      //   expect(response.body).to.have.property("success");
+      expect(response.body).to.have.property(
+        "message",
+        '"accessLevelId" is not allowed to be empty'
+      );
+      expect(response.status).to.eq(409); // Assuming 409 Conflict is the error status
+    });
+  });
+
+  it("Negative Test - Should fail to create a user when Access level id is invalid Chracter", () => {
+    cy.request({
+      method: "POST",
+      url: apiUrl,
+      body: {
+        firstname: "aman",
+        lastname: "sharma",
+        gender: "qwqq",
+        accessLevelId: "sdasdsadsadew4r23",
+      },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${authToken}`,
+      },
+      //   failOnStatusCode: false,
+    }).then((response) => {
+      //   expect(response.body).to.have.property("success");
+      expect(response.body).to.have.property(
+        "message",
+        '"accessLevelId" should be valid'
+      );
+      expect(response.status).to.eq(409); // Assuming 409 Conflict is the error status
+    });
+  });
+
+  it("Positive Test - Should Access level id is added in field with valid data", () => {
+    cy.request({
+      method: "POST",
+      url: apiUrl,
+      body: {
+        firstname: "Aman",
         lastname: "sharma",
         gender: "Male",
         accessLevelId: "666ae00680d5f3f0ae95e51d",
@@ -244,22 +294,21 @@ describe("Create User API Tests", () => {
       //   failOnStatusCode: false,
     }).then((response) => {
       //   expect(response.body).to.have.property("success");
-      expect(response.body).to.have.property(
-        "message",
-        '"gender" is not allowed to be empty'
-      );
+      expect(response.body).to.have.property("message", "Email is required");
       expect(response.status).to.eq(409); // Assuming 409 Conflict is the error status
     });
   });
 
-  it("Negative Test - Should fail to create a user when gender is invalid Chracter", () => {
+  it("Negative Test - Should fail to create a user when Email is empty", () => {
     cy.request({
       method: "POST",
       url: apiUrl,
       body: {
         firstname: "aman",
         lastname: "sharma",
-        gender: "qwqq",
+        gender: "Male",
+        accessLevelId: "666ae00680d5f3f0ae95e51d",
+        email: "",
       },
       headers: {
         "Content-Type": "application/json",
@@ -270,13 +319,65 @@ describe("Create User API Tests", () => {
       //   expect(response.body).to.have.property("success");
       expect(response.body).to.have.property(
         "message",
-        '"gender" should be valid'
+        '"email" is not allowed to be empty'
       );
       expect(response.status).to.eq(409); // Assuming 409 Conflict is the error status
     });
   });
 
-  it("Positive Test - Should gender is added in field with valid data", () => {
+  it("Negative Test - Should fail to create a user when Email is invalid format", () => {
+    cy.request({
+      method: "POST",
+      url: apiUrl,
+      body: {
+        firstname: "aman",
+        lastname: "sharma",
+        gender: "Male",
+        accessLevelId: "sdasdsadsadew4r23",
+        email: "aman@123",
+      },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${authToken}`,
+      },
+      //   failOnStatusCode: false,
+    }).then((response) => {
+      //   expect(response.body).to.have.property("success");
+      expect(response.body).to.have.property(
+        "message",
+        "Please provide a valid email address"
+      );
+      expect(response.status).to.eq(409); // Assuming 409 Conflict is the error status
+    });
+  });
+
+  it("Negative Test - Should fail to create a user when Duplicate Email is used ", () => {
+    cy.request({
+      method: "POST",
+      url: apiUrl,
+      body: {
+        firstname: "aman",
+        lastname: "sharma",
+        gender: "Male",
+        accessLevelId: "sdasdsadsadew4r23",
+        email: "hb047809@gmail.com",
+      },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${authToken}`,
+      },
+      //   failOnStatusCode: false,
+    }).then((response) => {
+      //   expect(response.body).to.have.property("success");
+      expect(response.body).to.have.property(
+        "message",
+        "Email Already Existed"
+      );
+      expect(response.status).to.eq(409); // Assuming 409 Conflict is the error status
+    });
+  });
+
+  it.only("Positive Test - Email is added successfully with valid email", () => {
     cy.request({
       method: "POST",
       url: apiUrl,
@@ -284,6 +385,8 @@ describe("Create User API Tests", () => {
         firstname: "Aman",
         lastname: "sharma",
         gender: "Male",
+        accessLevelId: "666ae00680d5f3f0ae95e51d",
+        email: "hb047809@gmail.com",
       },
       headers: {
         "Content-Type": "application/json",
@@ -294,12 +397,18 @@ describe("Create User API Tests", () => {
       //   expect(response.body).to.have.property("success");
       expect(response.body).to.have.property(
         "message",
-        '"accessLevelId" is required'
+        '"instruments" is required'
       );
       expect(response.status).to.eq(409); // Assuming 409 Conflict is the error status
     });
   });
 
+
+
+
+
+
+  
   //   it("Positive Test - Should create a user successfully", () => {
   //     cy.request({
   //       method: "POST",
