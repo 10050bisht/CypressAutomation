@@ -75,7 +75,7 @@ Cypress.Commands.add("loginApi", (email, password) => {
   });
 });
 
-//................................API Commands to resuse the Fetech for contacts Details  .............................
+//................................API Commands to resuse the Fetech for contacts Details ............................
 
 Cypress.Commands.add("fetchContactList", (authToken, queryParams = {}) => {
   return cy.request({
@@ -90,7 +90,7 @@ Cypress.Commands.add("fetchContactList", (authToken, queryParams = {}) => {
   });
 });
 
-//................................API Commands to resuse the Post User   .............................
+//................................API Commands to resuse the create User .............................
 
 Cypress.Commands.add("createUser", (authToken, userData) => {
   return cy.request({
@@ -101,6 +101,21 @@ Cypress.Commands.add("createUser", (authToken, userData) => {
       Authorization: `Bearer ${authToken}`,
     },
     body: userData,
+    failOnStatusCode: false, // Prevent Cypress from failing on non-2xx status codes
+  });
+});
+
+//................................API Commands to resuse the Create Client  .............................
+
+Cypress.Commands.add("addClient", (authToken, clientData) => {
+  return cy.request({
+    method: "POST",
+    url: "https://api-stage.schedulehub.io/api/v1/admin/contacts/leads/create",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${authToken}`, // Use the passed authToken
+    },
+    body: clientData,
     failOnStatusCode: false, // Prevent Cypress from failing on non-2xx status codes
   });
 });
