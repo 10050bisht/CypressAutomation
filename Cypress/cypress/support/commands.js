@@ -89,3 +89,18 @@ Cypress.Commands.add("fetchContactList", (authToken, queryParams = {}) => {
     failOnStatusCode: false,
   });
 });
+
+//................................API Commands to resuse the Post User   .............................
+
+Cypress.Commands.add("createUser", (authToken, userData) => {
+  return cy.request({
+    method: "POST",
+    url: "https://api-stage.schedulehub.io/api/v1/admin/settings/user-access/create",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${authToken}`,
+    },
+    body: userData,
+    failOnStatusCode: false, // Prevent Cypress from failing on non-2xx status codes
+  });
+});
