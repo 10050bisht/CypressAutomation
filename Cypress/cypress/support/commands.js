@@ -119,3 +119,18 @@ Cypress.Commands.add("addClient", (authToken, clientData) => {
     failOnStatusCode: false, // Prevent Cypress from failing on non-2xx status codes
   });
 });
+
+//................................API Commands to resuse the User List   .............................
+
+Cypress.Commands.add("getUserList", (authToken, params = {}) => {
+  return cy.request({
+    method: "GET",
+    url: "https://api-stage.schedulehub.io/api/v1/admin/settings/user-access/user?search=&status=all&page=1",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${authToken}`, // Use the passed authToken
+    },
+    // body: clientData,
+    failOnStatusCode: false, // Prevent Cypress from failing on non-2xx status codes
+  });
+});
