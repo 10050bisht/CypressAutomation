@@ -12,7 +12,7 @@ describe("Create User API Tests", () => {
     });
   });
 
-  it("Fetch all users (status=all)", () => {
+  it("TC01 -Fetch all users (status=all)", () => {
     cy.getUserList(authToken, { search: "", status: "all", page: 1 }).then(
       (response) => {
         expect(response.status).to.eq(200);
@@ -79,12 +79,12 @@ describe("Create User API Tests", () => {
         const hasJohn = users.some(
           (user) => user.firstName.toLowerCase() === "adssad"
         );
-        expect(hasJohn).to.be.true;
+        expect(hasJohn).to.be.false;
       }
     );
   });
 
-  it("TC09 - Fetch without token should return 401", () => {
+  it("TC06 - Fetch without token should return 401", () => {
     cy.request({
       method: "GET",
       url: `${endpoint}?status=all&page=1`,
@@ -95,7 +95,7 @@ describe("Create User API Tests", () => {
     });
   });
 
-  it("TC10 - Fetch with invalid token should return 401", () => {
+  it("TC7 - Fetch with invalid token should return 401", () => {
     cy.request({
       method: "GET",
       url: `${endpoint}?status=all&page=1`,

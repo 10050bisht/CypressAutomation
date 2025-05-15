@@ -2,7 +2,10 @@ describe("Create User API Tests", () => {
   const email = "dev.12tone@yopmail.com";
   const password = "jXfNQ9g2o5sa";
   let authToken = null;
-
+  const uniqueEmail = `user${Math.random()
+    .toString(36)
+    .substring(2, 10)}@example.com`; // Generate a unique email
+    
   before("Login and get token", () => {
     cy.loginApi(email, password).then((response) => {
       expect(response.status).to.eq(200);
@@ -293,10 +296,6 @@ describe("Create User API Tests", () => {
       expect(response.status).to.eq(409); // Assuming 409 Conflict is the error status
     });
   });
-
-  const uniqueEmail = `user${Math.random()
-    .toString(36)
-    .substring(2, 10)}@example.com`; // Generate a unique email
 
   it("Positive Test - Should Pass to create a user when instruments is Valid ", () => {
     // Test Case Passed successfully

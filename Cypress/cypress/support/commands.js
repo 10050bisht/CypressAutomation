@@ -130,7 +130,7 @@ Cypress.Commands.add("getUserList", (authToken, params = {}) => {
       "Content-Type": "application/json",
       Authorization: `Bearer ${authToken}`, // Use the passed authToken
     },
-    // body: clientData,
+    body: clientData,
     failOnStatusCode: false, // Prevent Cypress from failing on non-2xx status codes
   });
 });
