@@ -130,7 +130,37 @@ Cypress.Commands.add("getUserList", (authToken, params = {}) => {
       "Content-Type": "application/json",
       Authorization: `Bearer ${authToken}`, // Use the passed authToken
     },
-    body: clientData,
+    body: userlistData,
     failOnStatusCode: false, // Prevent Cypress from failing on non-2xx status codes
+  });
+});
+
+//................................API Commands to resuse the Add Room   .............................
+
+Cypress.Commands.add("addRoom", (authToken, roomData) => {
+  return cy.request({
+    method: "POST",
+    url: "https://api-stage.schedulehub.io/api/v1/admin/settings/location/room/create",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${authToken}`,
+    },
+    body: roomData,
+    failOnStatusCode: false,
+  });
+});
+
+//................................API Commands to resuse the Room  List  .............................
+
+Cypress.Commands.add("getRoomList", (authToken, queryParams = {}) => {
+  return cy.request({
+    method: "GET",
+    url: "https://api-stage.schedulehub.io/api/v1/admin/settings/location/room/list?search=&locations=all&sortBy=count&sortType=desc", // Use your actual endpoint
+    headers: {
+      Authorization: `Bearer ${authToken}`,
+      "Content-Type": "application/json",
+    },
+    qs: queryParams,
+    failOnStatusCode: false,
   });
 });
