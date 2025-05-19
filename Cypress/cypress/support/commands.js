@@ -155,7 +155,37 @@ Cypress.Commands.add("addRoom", (authToken, roomData) => {
 Cypress.Commands.add("getRoomList", (authToken, queryParams = {}) => {
   return cy.request({
     method: "GET",
-    url: "https://api-stage.schedulehub.io/api/v1/admin/settings/location/room/list?search=&locations=all&sortBy=count&sortType=desc", // Use your actual endpoint
+    url: "https://api-stage.schedulehub.io/api/v1/admin/settings/location/room/listsearch=&locations=all&sortBy=count&sortType=desc", // Use your actual endpoint
+    headers: {
+      Authorization: `Bearer ${authToken}`,
+      "Content-Type": "application/json",
+    },
+    qs: queryParams,
+    failOnStatusCode: false,
+  });
+});
+
+//................................API Commands to resuse the Add Holiday  .............................
+
+Cypress.Commands.add("apiCreateHoliday", (authToken, holidayData) => {
+  return cy.request({
+    method: "POST",
+    url: "https://api-stage.schedulehub.io/api/v1/admin/settings/location/holiday/create",
+    headers: {
+      // Add Authorization header if required:
+      Authorization: `Bearer ${authToken}`,
+      "Content-Type": "application/json",
+    },
+    body: holidayData,
+    failOnStatusCode: false,
+  });
+});
+
+//................................API Commands to resuse the Get Holiday List  .............................
+Cypress.Commands.add("getHolidayList", (authToken, queryParams = {}) => {
+  return cy.request({
+    method: "GET",
+    url: "https://api-stage.schedulehub.io/api/v1/admin/settings/location/holiday/list?search=&locations=all", // Use your actual endpoint
     headers: {
       Authorization: `Bearer ${authToken}`,
       "Content-Type": "application/json",
