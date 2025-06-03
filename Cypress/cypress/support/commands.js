@@ -151,7 +151,7 @@ Cypress.Commands.add("addRoom", (authToken, roomData) => {
 Cypress.Commands.add("getRoomList", (authToken, queryParams = {}) => {
   return cy.apiRequest({
     method: "GET",
-    url: "https://api-stage.schedulehub.io/api/v1/admin/settings/location/room/listsearch=&locations=all&sortBy=count&sortType=desc",
+    url: "https://api-stage.schedulehub.io/api/v1/admin/settings/location/room/list?search=&locations=all&sortBy=count&sortType=desc",
     authToken,
     qs: queryParams,
   });
@@ -191,10 +191,20 @@ Cypress.Commands.add("createStudent", (authToken, studentData = {}) => {
 
 //................................API Commands to resuse the Get Student list  .............................
 
-Cypress.Commands.add("getStudentLead", (authToken, studentId) => {
+Cypress.Commands.add("getStudentLead", (authToken, studentLeadId) => {
   return cy.apiRequest({
     method: "GET",
-    url: `https://api-stage.schedulehub.io/api/v1/admin/contacts/students/leads/${studentId}`,
+    url: `https://api-stage.schedulehub.io/api/v1/admin/contacts/students/leads/${studentLeadId}`,
+    authToken,
+  });
+});
+
+//................................API Commands to resuse the Delete Student  .............................
+
+Cypress.Commands.add("deletStudent", (authToken, studentLeadId) => {
+  return cy.apiRequest({
+    method: "DELETE",
+    url: `https://api-stage.schedulehub.io/api/v1/admin/contacts/students/destroy/${studentLeadId}`,
     authToken,
   });
 });

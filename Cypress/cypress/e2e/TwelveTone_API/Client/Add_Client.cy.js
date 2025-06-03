@@ -1,4 +1,4 @@
-describe("Create User API Tests", () => {
+describe("Create Client API Tests", () => {
   const email = "dev.12tone@yopmail.com";
   const password = "jXfNQ9g2o5sa";
   let authToken = null;
@@ -15,7 +15,7 @@ describe("Create User API Tests", () => {
     });
   });
 
-  it("Negative Testcase: Should fail to create a client when first name is empty ", () => {
+  it("Negative Testcase: Should fail to create a client when missing required fields ", () => {
     // Test case failed becasue of the status code is mismatched
 
     cy.addClient(authToken, {}).then((response) => {

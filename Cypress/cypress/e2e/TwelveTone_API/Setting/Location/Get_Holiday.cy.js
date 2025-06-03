@@ -1,4 +1,4 @@
-describe("Room List GET API", () => {
+describe("Holidays List GET API", () => {
   const email = "dev.12tone@yopmail.com";
   const password = "jXfNQ9g2o5sa";
   let authToken = null;
