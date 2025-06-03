@@ -1,10 +1,9 @@
-describe("Add Room and Verify in Room List", () => {
+describe("Add Room and Verify in Room List, and delete it", () => {
   const email = "dev.12tone@yopmail.com";
   const password = "jXfNQ9g2o5sa";
   const uniqueRoomName = `Room${Date.now()}`;
   const roomNumber = Math.floor(Math.random() * 10000);
   const locationId = "6666a0b083c6ec5a88dbe997";
-
   let authToken = null;
 
   before("Login and get token", () => {
@@ -15,8 +14,7 @@ describe("Add Room and Verify in Room List", () => {
     });
   });
 
-  it("should add a room and verify it appears in the room list", () => {
-    // Step 1: Add Room
+  it("should add a room, verify it in the list, then delete it", () => {
     cy.addRoom(authToken, {
       data: {
         name: uniqueRoomName,
@@ -30,16 +28,22 @@ describe("Add Room and Verify in Room List", () => {
         "Room created successfully"
       );
 
-      // Step 2: Get Room List and verify the new room is present
+      // Step 2: Get Room List and find the created room's _id
       cy.getRoomList(authToken).then((listResponse) => {
-        cy.log(JSON.stringify(listResponse.body)); // Debug log
         expect(listResponse.body).to.have.property("data").that.is.an("array");
-        const found = listResponse.body.data.some(
+        const createdRoom = listResponse.body.data.find(
           (room) => room.name === uniqueRoomName
-          // room.number === roomNumber &&
-          // room.location_id === locationId
         );
-        expect(found, "Created room is in the room list").to.be.true;
+        expect(createdRoom, "Created room is in the room list").to.exist;
+
+        // Step 3: Delete the room using its _id
+        cy.deleteRoom(authToken, createdRoom._id).then((deleteResponse) => {
+          expect(deleteResponse.status).to.eq(200);
+          expect(deleteResponse.body).to.have.property(
+            "message",
+            "Deleted Successfully"
+          );
+        });
       });
     });
   });

@@ -157,6 +157,16 @@ Cypress.Commands.add("getRoomList", (authToken, queryParams = {}) => {
   });
 });
 
+//................................API Commands to resuse the Delete Room   .............................
+
+Cypress.Commands.add("deleteRoom", (authToken, roomId) => {
+  return cy.apiRequest({
+    method: "DELETE",
+    url: `https://api-stage.schedulehub.io/api/v1/admin/settings/location/room/delete/${roomId}`,
+    authToken,
+  });
+});
+
 //................................API Commands to resuse the Add Holiday  .............................
 
 Cypress.Commands.add("apiCreateHoliday", (authToken, holidayData) => {
@@ -175,6 +185,16 @@ Cypress.Commands.add("getHolidayList", (authToken, queryParams = {}) => {
     url: "https://api-stage.schedulehub.io/api/v1/admin/settings/location/holiday/list?search=&locations=all",
     authToken,
     qs: queryParams,
+  });
+});
+
+//................................API Commands to resuse the Delete Holiday   .............................
+
+Cypress.Commands.add("deleteHoliday", (authToken, holidayId) => {
+  return cy.apiRequest({
+    method: "DELETE",
+    url: `https://api-stage.schedulehub.io/api/v1/admin/settings/location/holiday/delete/${holidayId}`,
+    authToken,
   });
 });
 
