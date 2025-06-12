@@ -228,3 +228,24 @@ Cypress.Commands.add("deletStudent", (authToken, studentLeadId) => {
     authToken,
   });
 });
+
+//................................API Commands to resuse the Add Credits resons .............................
+Cypress.Commands.add("createCreditReason", (authToken, creditReasonData) => {
+  return cy.apiRequest({
+    method: "POST",
+    url: "https://api-stage.schedulehub.io/api/v1/admin/settings/payments/creditReason",
+    authToken,
+    body: creditReasonData,
+  });
+});
+
+//................................API Commands to resuse the Get Credits resons list.............................
+
+Cypress.Commands.add("getCreditReson", (authToken, queryParams = {}) => {
+  return cy.apiRequest({
+    method: "GET",
+    url: "https://api-stage.schedulehub.io/api/v1/admin/ssettings/payments/creditReason/settings?search=",
+    authToken,
+    qs: queryParams,
+  });
+});

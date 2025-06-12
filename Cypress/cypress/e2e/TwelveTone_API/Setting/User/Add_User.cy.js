@@ -5,7 +5,7 @@ describe("Create User API Tests", () => {
   const uniqueEmail = `user${Math.random()
     .toString(36)
     .substring(2, 10)}@example.com`; // Generate a unique email
-    
+
   before("Login and get token", () => {
     cy.loginApi(email, password).then((response) => {
       expect(response.status).to.eq(200);
