@@ -244,8 +244,26 @@ Cypress.Commands.add("createCreditReason", (authToken, creditReasonData) => {
 Cypress.Commands.add("getCreditReson", (authToken, queryParams = {}) => {
   return cy.apiRequest({
     method: "GET",
-    url: "https://api-stage.schedulehub.io/api/v1/admin/ssettings/payments/creditReason/settings?search=",
+    url: "https://api-stage.schedulehub.io/api/v1/admin/settings/payments/creditReason/settings?search=",
     authToken,
     qs: queryParams,
+  });
+});
+
+Cypress.Commands.add("deleteCreditReason", (authToken, creditReasonId) => {
+  return cy.apiRequest({
+    method: "DELETE",
+    url: `https://api-stage.schedulehub.io/api/v1/admin/settings/payments/creditReason/${creditReasonId}`,
+    authToken,
+  });
+});
+
+//................................API Commands to resuse the Add Songs  .............................
+Cypress.Commands.add("createSong", (authToken, songData) => {
+  return cy.apiRequest({
+    method: "POST",
+    url: "https://api-stage.schedulehub.io/api/v1/admin/settings/lms/song/create",
+    authToken,
+    body: songData,
   });
 });
